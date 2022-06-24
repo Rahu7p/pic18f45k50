@@ -1,6 +1,8 @@
 /*
- * File:   main.c
- * Author: rahu7p
+ * File:                main.c
+ * Author:              rahu7p
+ * Development board:   Curiosity HPC
+ * MCU:                 PIC18F45K50
  */
 
 //++++++++++++++++++++++++++++LIBRARIEs SECTION+++++++++++++++++++++++++++++++++
