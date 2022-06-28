@@ -8,12 +8,16 @@
 //++++++++++++++++++++++++++++LIBRARIEs SECTION+++++++++++++++++++++++++++++++++
 #include "main.h"
 #include <xc.h>
+#include <stdint.h>//               unified data types for all XC compilers
 //++++++++++++++++++++++++++++DIRECTIVEs SECTION++++++++++++++++++++++++++++++++
+//Defines
 #define _XTAL_FREQ 16000000//       MACRO for __delay_ms() function
-//Enumeration
+//Enumerations
 typedef enum{//                     assign a constant value to a label
     oneSecond   = 1000              
 }osTime;
+//Variables, constants
+//...
 //+++++++++++++++++++++++++++++++ISRs SECTION+++++++++++++++++++++++++++++++++++
 //ISR for high-priority... ORG 0x08
 __interrupt( high_priority ) void high_isr( void ){
@@ -27,7 +31,7 @@ __interrupt( low_priority ) void low_isr( void ) {
 void CLK_Initialize( void );
 void PORT_Initialize( void );
 //+++++++++++++++++++++++++++++MAIN SECTION+++++++++++++++++++++++++++++++++++++
-void main( void ){
+void main( void ){   
     //CONFIGURATIONS************************************************************
     CLK_Initialize( );//            Clock initializations
     PORT_Initialize( );//           PORT initializations
