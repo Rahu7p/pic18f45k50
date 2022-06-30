@@ -43,7 +43,7 @@ void main( void ){
         key = getKey();//                           call the function to get the Key
         if( key != notKey ){//                      if a Key was returned
             LATA = (uint8_t)( key << hNibble );//   show the value of Key in LEDs          
-            while( PORTBbits.RB3 == 0 );//          wait until Key is released
+            while( PORTBbits.RB0 == 0 );//          wait until Key is released
         }
     }
 }
@@ -58,32 +58,32 @@ void PORT_Initialize( void ){
     TRISA = TRISA & 0b00001111;//   set RA7-RA4 as output
     //Pin configurations for the Keypad
     LATB = 0;//                     clear PORTB data latches
-    ANSELB = ANSELB & 0b11110111;// enable digital input buffer in RB3
     TRISB = 0;//                    set PORTB as output
-    TRISB = TRISB | 0b00001000;//   set RB3 as input    
-    WPUB = WPUB | 0b00001000;//     connect an internal resistor in pin RB3
+    ANSELB = ANSELB & 0b11111110;// enable digital input buffer in RB0
+    TRISB = TRISB | 0b00000001;//   set RB0 as input    
+    WPUB = WPUB | 0b00000001;//     connect an internal resistor in pin RB0
     INTCON2bits.RBPU = 0;//         enable the internal pull-ups in PORTB
 }
 uint8_t getKey( void ){
     LATB = LATB | 0b11110000;//     disable with '1' the columns of the keypad 
-    LATBbits.LATB7 = 0;//           enable with '0' the Row0
-    if( PORTBbits.RB3 == 0 ){//     if we find the '0' in Column0 
-        __delay_ms( twentyMS );//   delay to debounce the input
-        if( PORTBbits.RB3 == 1 ){// double checking
+    LATBbits.LATB4 = 0;//           enable with '0' the C0
+    if( PORTBbits.RB0 == 0 ){//     if we find the '0' in R0 
+        __delay_ms( twentyMS );//   call a delay to debounce the input
+        if( PORTBbits.RB0 == 1 ){// double checking
             return notKey;//        if button was not pressed, no match
         }
         //if button was really pressed
         return 1;//                 assign a match (R0-C0) value of '1'
     }  
-    /* Continue with the remain columns.
+    /* Continue with the remain rows.
      * Copy three times the segment of code of the first IF statement.
-     * Change the COLUMN (pins) checkings and the match values.
+     * Change the ROW (pins) checkings and the match values.
      */
     
-    /* Continue with the remain rows.
+    /* Continue with the remain columns.
      * Copy three times the code from the first line of the function,
-     * including the code (IF statements) of the remain columns.
-     * Change the ROW (pins) writes and the match values.
+     * including the code (IF statements) of the remain rows.
+     * Change the COLUMN (pins) writes and the match values.
      */
     
     return notKey;
