@@ -50,10 +50,9 @@ void main( void ){
     LCD_Cursor_ON( );//                     cursor is visible
     while( 1 ){
         key = getKey();//                   call the function to get the key
-        if( key != notKey ){//              if a Key was returned
-            key = key + '0';//              get the ASCII value of the key
+        if( key != notKey ){//              if a key was returned
             LCD_putch( key );//             write the key character in the LCD        
-            while( PORTBbits.RB0 == 0 );//  wait until Key is released
+            while( PORTBbits.RB0 == 0 );//  wait until key is released
         }
     }
 }
@@ -83,7 +82,7 @@ uint8_t getKey( void ){
             return notKey;//        if button was not pressed, no match
         }
         //if button was really pressed
-        return 1;//                 assign a match (R0-C0) value of '1'
+        return ( 1 + '0' );//       assign a match (R0-C0) ASCII value of '1'
     }  
     /* Continue with the remain rows.
      * Copy three times the segment of code of the first IF statement.
