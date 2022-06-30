@@ -52,6 +52,7 @@ void main( void ){
 //++++++++++++++++++++++++++FUNCTIONs SECTION+++++++++++++++++++++++++++++++++++
 void CLK_Initialize( void ){
     OSCCONbits.IRCF = 0b111;//      set HFINTOSC to 16 MHz
+    SLRCON = 0;//                   set a standard slew rate in pin PORTS 
 }
 void PORT_Initialize( void ){  
     TRISAbits.TRISA4 = 0;//         set RA4 as output
