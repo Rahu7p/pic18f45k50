@@ -1,8 +1,8 @@
 /*
- * File:                main.c
- * Author:              rahu7p
- * Development board:   Curiosity HPC
- * MCU:                 PIC18F45K50
+ * File:   main.c
+ * Author: L01356840
+ *
+ * Created on 24 de junio de 2022, 12:13 PM
  */
 
 //++++++++++++++++++++++++++++LIBRARIEs SECTION+++++++++++++++++++++++++++++++++
@@ -15,7 +15,7 @@
 //Enumerations
 typedef enum{//                     assign a constant value to a label
     oneSecond   = 1000              
-}osTime;
+}uSer;
 //Variables, constants
 //...
 //+++++++++++++++++++++++++++++++ISRs SECTION+++++++++++++++++++++++++++++++++++
@@ -44,9 +44,9 @@ void main( void ){
             LATAbits.LATA7 = 0;//   turn OFF LED (D5)
         }//LED TURN-ON FOR 1 SECOND AND TURN-OFF FOR ANOTHER SECOND*************
         LATAbits.LATA4 = 1;//       turn ON LED (D2)
-        __delay_ms( oneSecond );//  delay function XC8 compiler
+        __delay_ms( oneSecond );//  delay MACRO of the XC8 compiler
         LATAbits.LATA4 = 0;//       turn OFF LED (D2))
-        __delay_ms( oneSecond );//  delay function XC8 compiler
+        __delay_ms( oneSecond );//  delay MACRO of the XC8 compiler
     }
 }
 //++++++++++++++++++++++++++FUNCTIONs SECTION+++++++++++++++++++++++++++++++++++
@@ -54,9 +54,9 @@ void CLK_Initialize( void ){
     OSCCONbits.IRCF = 0b111;//      set HFINTOSC to 16 MHz
     SLRCON = 0;//                   set a standard slew rate in pin PORTS 
 }
-void PORT_Initialize( void ){  
-    TRISAbits.TRISA4 = 0;//         set RA4 as output
-    TRISAbits.TRISA7 = 0;//         set RA7 as output
+void PORT_Initialize( void ){
+    LATA = LATA & 0b01101111;//     clear RA4 and RA7 data latches
+    TRISA = TRISA & 0b01101111;//   set RA4 and RA7 as output
     TRISBbits.TRISB4 = 1;//         set RB4 as input
     ANSELBbits.ANSB4 = 0;//         enable digital input buffer in RB4
 }
