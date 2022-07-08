@@ -100,7 +100,7 @@ void UART_Initialize( void ){
 }
 void UART_TransmitByte( uint8_t data ){
     while( TXSTA1bits.TRMT == 0 );//    wait until TSR is empty
-    TXREG = data;//                     transmit byte
+    TXREG1 = data;//                     transmit byte
 }
 uint8_t UART_ReceiveByte( void ){
     uint8_t data = 0xFF;
