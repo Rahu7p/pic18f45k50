@@ -34,7 +34,7 @@ static uint8_t SPI1_exchangeByte( uint8_t data );
 
 //MAX7219 
 void MAX7219_write( uint8_t regName, uint8_t data );
-void MAX7219_Initialize( void );
 void MAX7219_clearDisplay( void );
+void MAX7219_Initialize( void );
 
 #endif	/* LEDCONTROL_H */
