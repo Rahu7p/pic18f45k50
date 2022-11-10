@@ -73,6 +73,7 @@
 // CONFIG7H
 #pragma config EBTRB = OFF      // Boot Block Table Read Protect (Boot block is not protected from table reads executed in other blocks)
                                                                                                                        
-//........    PIC18F45K50 configuration bit settings    ............................................................................____:____|
+//........    PIC18F45K50 configuration bit settings    ....................................................................................|
+#include <xc.h>
 
 #endif	/* MAIN_H */
