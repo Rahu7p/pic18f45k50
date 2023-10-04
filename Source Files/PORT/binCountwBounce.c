@@ -4,9 +4,9 @@
  * Development board:   Curiosity HPC
  * MCU:                 PIC18f45k50
  * 
- * This program increments a 4-bit binary counter using the S1 button. The
- * counter is showed in the LEDS (D5 to D2). The program demonstrates that the 
- * increments are uncertain due to S1 bouncing. 
+ * This program increments a 4-bit binary counter using a button connected at RB0.
+ * The counter is showed in the LEDS (D5 to D2). The program demonstrates that the 
+ * increments are uncertain due to button bouncing. 
  */
 
 //++++++++++++++++++++++++++++LIBRARIEs SECTION+++++++++++++++++++++++++++++++++
@@ -15,13 +15,11 @@
 #include <stdint.h>//               unified data types for all XC compilers
 //++++++++++++++++++++++++++++DIRECTIVEs SECTION++++++++++++++++++++++++++++++++
 //Defines
-//..
+#define BUTTON PORTBbits.RB0
 //Enumerations
-typedef enum{//                     assign a constant value to a label
-    uNibble = 4              
-}uSer;
-//Variables, constants
 //...
+//Variables, constants
+const uint8_t uNibble = 4;
 //+++++++++++++++++++++++++++++++ISRs SECTION+++++++++++++++++++++++++++++++++++
 //ISR for high-priority... ORG 0x08
 __interrupt( high_priority ) void high_isr( void ){
@@ -40,7 +38,7 @@ void main( void ){
     CLK_Initialize( );//            Clock initializations
     PORT_Initialize( );//           PORT initializations
     while( 1 ){  
-        if( PORTBbits.RB4 == 0 ){// if button (S1) is pressed then:
+        if( BUTTON == 0 ){//        if button (S1) is pressed then:
             bCounter++;//           increment the binary counter
             //write the counter value to the LEDs (upper part of Port A)
             LATA = (uint8_t)( bCounter << uNibble );
@@ -55,7 +53,7 @@ void CLK_Initialize( void ){
 void PORT_Initialize( void ){
     LATA = LATA & 0b00001111;//     clear the LEDs (RA7 to RA4)
     TRISA = TRISA & 0b00001111;//   set RA7-RA4 as outputs
-    ANSELBbits.ANSB4 = 0;//         enable digital input buffer in RB4
-    TRISBbits.TRISB4 = 1;//         set RB4 as input
+    ANSELBbits.ANSB0 = 0;//         enable digital input buffer in RB0
+    TRISBbits.TRISB0 = 1;//         set RB0 as input
 }
 //+++++++++++++++++++++++++++++++++++END++++++++++++++++++++++++++++++++++++++++
