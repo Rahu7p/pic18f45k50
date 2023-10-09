@@ -14,13 +14,11 @@
 //Defines
 #define _XTAL_FREQ 16000000//       MACRO for __delay_ms() function
 //Enumerations
-typedef enum{//                     assign a constant value to a label
-    hNibble     = 4,
-    twentyMS    = 20,
-    notKey      = 0xFF            
-}uSer;
-//Variables, constants
 //...
+//Variables, constants
+const uint8_t hNibble = 4;
+const uint8_t twentyMS = 20;
+const uint8_t notKey = 0xFF;
 //+++++++++++++++++++++++++++++++ISRs SECTION+++++++++++++++++++++++++++++++++++
 //ISR for high-priority... ORG 0x08
 __interrupt( high_priority ) void high_isr( void ){
