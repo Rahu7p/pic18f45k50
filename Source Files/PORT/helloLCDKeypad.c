@@ -15,16 +15,14 @@
 //Defines
 #define _XTAL_FREQ 16000000//       MACRO for __delay_ms() function
 //Enumerations
-typedef enum{//                     assign a constant value to a label
-    limSLeft    = 10,
-    twentyMS    = 20,
-    twoHundMS   = 200,
-    posR0C10    = 0x8A,
-    posR1C0     = 0xC0,
-    notKey      = 0xFF            
-}uSer;
-//Variables, constants
 //...
+//Variables, constants
+const uint8_t limSLeft = 5;
+const uint8_t twentyMS = 20;
+const uint8_t twoHundMS = 200;
+const uint8_t posR0C5 = 0x85;
+const uint8_t posR1C0 = 0xC0;
+const uint8_t notKey = 0xFF;
 //+++++++++++++++++++++++++++++++ISRs SECTION+++++++++++++++++++++++++++++++++++
 //ISR for high-priority... ORG 0x08
 __interrupt( high_priority ) void high_isr( void ){
@@ -98,8 +96,8 @@ uint8_t getKey( void ){
     return notKey;
 }
 void fancyString( void ){
-    LCD_cmd( posR0C10 );//      cursor position in row0, col10
-    LCD_putstr( "TE2015" );//   write the string in LCD
+    LCD_cmd( posR0C5 );//      cursor position in row0, col10
+    LCD_putstr( "PIC18" );//   write the string in LCD
     LCD_Cursor_OFF( );//        cursor not visible
     //for-loop to left-shift the string every 200ms by modifying DDRAM positions  
     for( int i = 0; i < limSLeft; i++ ){
@@ -108,6 +106,6 @@ void fancyString( void ){
     }
     LCD_Cursor_Home( );//       set the cursor to Home to reset DDRAM
     LCD_Clear( );//             clear the string
-    LCD_putstr( "TE2015" );//   rewrite the string in row0, col0
+    LCD_putstr( "PIC18" );//   rewrite the string in row0, col0
 }
 //+++++++++++++++++++++++++++++++++++END++++++++++++++++++++++++++++++++++++++++
