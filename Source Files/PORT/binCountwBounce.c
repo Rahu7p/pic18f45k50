@@ -16,6 +16,7 @@
 //++++++++++++++++++++++++++++DIRECTIVEs SECTION++++++++++++++++++++++++++++++++
 //Defines
 #define BUTTON PORTBbits.RB0
+#define _XTAL_FREQ 16000000
 //Enumerations
 //...
 //Variables, constants
