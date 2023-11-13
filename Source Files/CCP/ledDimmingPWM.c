@@ -9,7 +9,7 @@
  * 1 second delay 
  * The PWM signal has the following features: 
  *  - Frequency: 4 kHz 
- *  - Duty cycle: 20% steps from 0% to 100%
+ *  - Duty cycle: 25% steps from 0% to 100%
  * A jumper (connection) is needed between pin RC1 (CCP2) to pin RA4 (LED D2).
  */
 
@@ -22,7 +22,7 @@
 //Enumerations
 //...
 //Variables, constants
-uint16_t duty = 0;
+//...
 //+++++++++++++++++++++++++++++++ISRs SECTION+++++++++++++++++++++++++++++++++++
 //ISR for high-priority... ORG 0x08
 __interrupt( high_priority ) void high_isr( void ){
@@ -38,17 +38,22 @@ void PORT_Initialize( void );
 void CCP_PWM_Initialize( void );
 void TMR2_Initialize( void );
 void TMR0_Delay_1s( void );
-void dutyCycle_Update( void );
+void dutyCycle_Update( float duty );
 //+++++++++++++++++++++++++++++MAIN SECTION+++++++++++++++++++++++++++++++++++++
 void main( void ){
+    float duty_cycle = 0.0;
     CLK_Initialize( );//                Clock initializations
     PORT_Initialize( );//               PORT initializations
     CCP_PWM_Initialize( );//            CCP initializations as PWM
     TMR2_Initialize( );//               Timer 2 initializations
     while( 1 ){
         /* STEP 3 Begins */
-        dutyCycle_Update( );//          increments duty cycle by 20% (0-100%)
+        dutyCycle_Update( duty );//     update the duty cycle
         TMR0_Delay_1s( );//             1 second delay
+        //Incrementing the duty in (25% steps)
+        duty_cycle = duty_cycle + 0.25;
+	    if( duty_cycle == 1.25 )
+		    duty_cycle = 0.0;
         /* STEP 3 Ends */
     }    
 }
@@ -79,15 +84,10 @@ void TMR2_Initialize( void ){
     TRISCbits.TRISC1 = 0;//             enable the CCP2 pin output
     /* STEP 2 Ends */
 }
-void dutyCycle_Update( void ){
-    CCPR2L = (uint8_t)( duty >> 2 );//  load (bit10 to bit2) of the 10-bit duty 
-    CCP2CONbits.DC2B = duty & 0x0003;// load (bit1 and bit0) of the 10-bit duty
-    duty = duty + 200;//                add a 20%  to the duty cycle
-    //Defining the limits
-    if( duty == 1000 )
-        duty = 1023;//                  forcing to 100%
-    if( duty == 1223 )
-        duty = 0;//                     forcing to 0%
+void dutyCycle_Update( float duty ){
+    uint16_t dutyTemp = duty * 4 * (PR2 + 1);// calculating the 10-bit duty  
+    CCPR2L = (uint8_t)( dutyTemp >> 2 );//      load (bit10 to bit2) of the 10-bit duty 
+    CCP2CONbits.DC2B = dutyTemp & 0x0003;//     load (bit1 and bit0) of the 10-bit duty
 }
 void TMR0_Delay_1s( void ){
     T0CON = 0b00000101;//               initialize Timer 0 with:
