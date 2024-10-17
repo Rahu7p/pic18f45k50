@@ -136,7 +136,7 @@ uint8_t getKey( void ){
 }
 void fancyString( void ){
     LCD_cmd( posR0C10 );//      cursor position in row0, col10
-    LCD_putstr( "TE2015" );//   write the string in LCD
+    LCD_putstr( "TC2009B" );//   write the string in LCD
     LCD_Cursor_OFF( );//        cursor not visible
     //for-loop to left-shift the string every 200ms by modifying DDRAM positions  
     for( int i = 0; i < limSLeft; i++ ){
@@ -145,6 +145,6 @@ void fancyString( void ){
     }
     LCD_Cursor_Home( );//       set the cursor to Home to reset DDRAM
     LCD_Clear( );//             clear the string
-    LCD_putstr( "TE2015" );//   rewrite the string in row0, col0
+    LCD_putstr( "TC2009B" );//   rewrite the string in row0, col0
 }
 //+++++++++++++++++++++++++++++++++++END++++++++++++++++++++++++++++++++++++++++
