@@ -79,18 +79,19 @@ void PORT_Initialize( void ){
     TRISB = TRISB | 0b00000001;//   set RB0 as input    
     WPUB = WPUB | 0b00000001;//     connect an internal resistor in pin RB0
     INTCON2bits.RBPU = 0;//         enable the internal pull-ups in PORTB
-    //Pin configurations for the UART
+}
+void UART_Initialize( void ){
+    //STEP 1. Pin configurations for the UART
     ANSELCbits.ANSC6 = 0;//         configure RC6 (TX) pin as:
     TRISCbits.TRISC6 = 1;//         EUSART asynchronous transmit data output
     ANSELCbits.ANSC7 = 0;//         configure RC7 (RX) pin as:
     TRISCbits.TRISC7 = 1;//         EUSART asynchronous receive data in
-}
-void UART_Initialize( void ){
+    //STEP 2. Configure a 9600 BAUDRATE according to TABLE 17-5
     BAUDCON1bits.BRG16 = 1;//       16-bit baudrate
-    //Configure a 9600 BAUDRATE according to TABLE 17-5
+    TXSTA1bits.BRGH = 1;//          high-speed
     SPBRGH1 = 0x01;       
     SPBRG1 = 0xA0;
-    TXSTA1bits.BRGH = 1;//          high-speed
+    //STEP 3. UART initializations
     TXSTA1bits.SYNC = 0;//          asynchronous mode
     RCSTA1bits.SPEN = 1;//          serial port enabled
     TXSTA1bits.TXEN = 1;//          transmit enabled
