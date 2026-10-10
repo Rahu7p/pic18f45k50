@@ -6,7 +6,6 @@
 #ifndef MAIN_H
 #define	MAIN_H
 
-#include <htc.h>
 //::::::::    PIC18F45K50 CONFIGURATION BIT SETtINGS    ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::----:----+
 // CONFIG1L                                                                                                                                  |
 #pragma config PLLSEL = PLL4X   // PLL Selection (4x clock multiplier)                                                                       |
