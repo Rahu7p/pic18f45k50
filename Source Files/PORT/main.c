@@ -1,11 +1,9 @@
 //++++++++++++++++++++++++++++LIBRARIEs SECTION+++++++++++++++++++++++++++++++++
 #include "main.h"
-#include <xc.h>
 #include <stdint.h>//            unified data types for all XC compilers
 //++++++++++++++++++++++++++++DIRECTIVEs SECTION++++++++++++++++++++++++++++++++
 //Defines
-#define _XTAL_FREQ 16000000//    MACRO for __delay_ms() function
-#define ONE_SECOND 1000      
+#define _XTAL_FREQ 16000000//    MACRO for __delay_ms() function   
 //Global variables, constants
 //...
 //+++++++++++++++++++++++++++++++ISRs SECTION+++++++++++++++++++++++++++++++++++
@@ -26,7 +24,7 @@ void main( void ){
   PORT_Initialize( );//                    PORT initializations
   while( 1 ){  
     LATAbits.LATA4 = LATAbits.LATA4 ^ 1;// toggle the RA4 pin (LED)
-    __delay_ms(ONE_SECOND);//              delay MACRO of the XC8 compiler
+    __delay_ms(1000);//                    delay MACRO of the XC8 compiler
   }
 }
 //++++++++++++++++++++++++++FUNCTIONs SECTION+++++++++++++++++++++++++++++++++++
