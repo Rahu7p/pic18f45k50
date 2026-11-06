@@ -5,5 +5,6 @@
 
 void UART_Initialize( void );
 void UART_TransmitByte( uint8_t data );
+uint8_t UART_ReceiveByte( void );
 
 #endif
