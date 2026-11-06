@@ -10,7 +10,7 @@
 #include "main.h"
 #include <xc.h>
 #include <stdint.h>//               unified data types for all XC compilers
-#include "uarth.h"
+#include "uart.h"
 #include "lcd.h"
 //++++++++++++++++++++++++++++DIRECTIVEs SECTION++++++++++++++++++++++++++++++++
 //Defines
