@@ -23,3 +23,13 @@ void UART_TransmitByte( uint8_t data ){
     while( TXSTA1bits.TRMT == 0 );//    wait until TSR is empty
     TXREG1 = data;//                     transmit byte
 }
+
+uint8_t UART_ReceiveByte( void ){
+    uint8_t data = 0xFF;
+    if( PIR1bits.RCIF == 1 ){//         if receive buffer is full
+        RCSTA1bits.CREN = 0;//          disables receiver
+        data = RCREG1;//                read the byte received
+        RCSTA1bits.CREN = 1;//          enables receiver 
+    }
+    return data;
+}
