@@ -10,6 +10,7 @@
 #include "main.h"
 #include <xc.h>
 #include <stdint.h>//               unified data types for all XC compilers
+#include "uarth.h"
 #include "lcd.h"
 //++++++++++++++++++++++++++++DIRECTIVEs SECTION++++++++++++++++++++++++++++++++
 //Defines
@@ -35,9 +36,6 @@ __interrupt( low_priority ) void low_isr( void ) {
 //++++++++++++++++++++++++FUNCTIONs DECLARATION+++++++++++++++++++++++++++++++++
 void CLK_Initialize( void );
 void PORT_Initialize( void );
-void UART_Initialize( void );
-void UART_TransmitByte( uint8_t data );
-uint8_t UART_ReceiveByte( void );
 uint8_t getKey( void );
 void fancyString( void );
 //+++++++++++++++++++++++++++++MAIN SECTION+++++++++++++++++++++++++++++++++++++
@@ -79,36 +77,6 @@ void PORT_Initialize( void ){
     TRISB = TRISB | 0b00000001;//   set RB0 as input    
     WPUB = WPUB | 0b00000001;//     connect an internal resistor in pin RB0
     INTCON2bits.RBPU = 0;//         enable the internal pull-ups in PORTB
-}
-void UART_Initialize( void ){
-    //STEP 1. Pin configurations for the UART
-    ANSELCbits.ANSC6 = 0;//         configure RC6 (TX) pin as:
-    TRISCbits.TRISC6 = 1;//         EUSART asynchronous transmit data output
-    ANSELCbits.ANSC7 = 0;//         configure RC7 (RX) pin as:
-    TRISCbits.TRISC7 = 1;//         EUSART asynchronous receive data in
-    //STEP 2. Configure a 9600 BAUDRATE according to TABLE 17-5
-    BAUDCON1bits.BRG16 = 1;//       16-bit baudrate
-    TXSTA1bits.BRGH = 1;//          high-speed
-    SPBRGH1 = 0x01;       
-    SPBRG1 = 0xA0;
-    //STEP 3. UART initializations
-    TXSTA1bits.SYNC = 0;//          asynchronous mode
-    RCSTA1bits.SPEN = 1;//          serial port enabled
-    TXSTA1bits.TXEN = 1;//          transmit enabled
-    RCSTA1bits.CREN = 1;//          enables receiver 
-}
-void UART_TransmitByte( uint8_t data ){
-    while( TXSTA1bits.TRMT == 0 );//    wait until TSR is empty
-    TXREG1 = data;//                     transmit byte
-}
-uint8_t UART_ReceiveByte( void ){
-    uint8_t data = 0xFF;
-    if( PIR1bits.RCIF == 1 ){//         if receive buffer is full
-        RCSTA1bits.CREN = 0;//          disables receiver
-        data = RCREG1;//                read the byte received
-        RCSTA1bits.CREN = 1;//          enables receiver 
-    }
-    return data;
 }
 uint8_t getKey( void ){
     LATB = LATB | 0b11110000;//     disable with '1' the columns of the keypad 
